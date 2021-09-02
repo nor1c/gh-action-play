@@ -10,12 +10,14 @@ If any commit message in your push or the HEAD commit of your PR contains the st
 ## Caching dependencies to speed up workflows
 
 ### [About caching workflow dependencies](https://docs.github.com/en/actions/guides/caching-dependencies-to-speed-up-workflows#about-caching-workflow-dependencies)
-<hr>
-Workflow runs often reuse the same outputs or downloaded dependencies from one run to another. For example, package and dependency management tools such as Maven, Gradle, npm, and Yarn keep a local cache of downloaded dependencies.<br>
+Workflow runs often reuse the same outputs or downloaded dependencies from one run to another. For example, package and dependency management tools such as Maven, Gradle, npm, and Yarn keep a local cache of downloaded dependencies.
+<br><br>
 Jobs on GitHub-hosted runners start in a clean virtual environment and must download dependencies each time, causing increased network utilization, longer runtime, and increased cost. To help speed up the time it takes to recreate these files, GitHub can cache dependencies you frequently use in workflows.<br>
-To cache dependencies for a job, you'll need to use GitHub's `cache` action. The action retrieves a cache identified by a unique key. For more information, see [actions/cache](https://github.com/actions/cache).<br>
-<br>
+To cache dependencies for a job, you'll need to use GitHub's `cache` action. The action retrieves a cache identified by a unique key. For more information, see [actions/cache](https://github.com/actions/cache).
+<br><br>
 To cache and restore dependencies for npm, Yarn, or pnpm, you can use the [actions/setup-node](https://github.com/actions/setup-node) action.<br>
+<br>
+
 #### Example caching npm dependencies:
 ```
 steps:
@@ -43,13 +45,14 @@ steps:
 			${{ runner.os }}-build-
 			${{ runner.os }}-
 ```
-<br> 
-**more information**
+<br><br> 
+**More information about caching**
 - [Using contexts to create cache keys](https://docs.github.com/en/actions/guides/caching-dependencies-to-speed-up-workflows#using-contexts-to-create-cache-keys)
 - [Matching a cache key](https://docs.github.com/en/actions/guides/caching-dependencies-to-speed-up-workflows#matching-a-cache-key)
 - [Example of search priority](https://docs.github.com/en/actions/guides/caching-dependencies-to-speed-up-workflows#example-of-search-priority)
 
 ### Usage limits and eviction policy
-<hr>
 GitHub will remove any cache entries that have not been accessed in over 7 days. There is no limit on the number of caches you can store, but the total size of all caches in a repository is limited to 5 GB. If you exceed this limit, GitHub will save your cache but will begin evicting caches until the total size is less than 5 GB.<br>
+
 <br>
+
