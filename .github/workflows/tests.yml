@@ -74,7 +74,7 @@ jobs:
       - name: Serving app
         run: |
           npm run serve
-          ps aux | grep node
+          npx wait-on http://localhost:3000
 
       - name: Run unit test
         run: npm test
