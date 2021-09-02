@@ -15,9 +15,8 @@ Workflow runs often reuse the same outputs or downloaded dependencies from one r
 Jobs on GitHub-hosted runners start in a clean virtual environment and must download dependencies each time, causing increased network utilization, longer runtime, and increased cost. To help speed up the time it takes to recreate these files, GitHub can cache dependencies you frequently use in workflows.<br>
 To cache dependencies for a job, you'll need to use GitHub's `cache` action. The action retrieves a cache identified by a unique key. For more information, see [actions/cache](https://github.com/actions/cache).
 <br><br>
-To cache and restore dependencies for npm, Yarn, or pnpm, you can use the [actions/setup-node](https://github.com/actions/setup-node) action.<br>
+To cache and restore dependencies for npm, Yarn, or pnpm, you can use the [actions/setup-node](https://github.com/actions/setup-node) action.
 <br>
-
 #### Example caching npm dependencies:
 ```
 steps:
@@ -29,7 +28,9 @@ steps:
 - run: npm install
 - run: npm test
 ```
+
 <br>
+
 #### [Example using the `cache` action](https://docs.github.com/en/actions/guides/caching-dependencies-to-speed-up-workflows#example-using-the-cache-action)
 ```
 - name: Cache node modules
