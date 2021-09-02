@@ -36,4 +36,4 @@ route.use(async (error: Error, req: Request, res: Response, _: NextFunction) => 
   })
 })
 
-server.listen(3000, '0.0.0.0', () => console.log(`Server running`))
+server.listen(4000, '0.0.0.0', () => console.log(`Server running on port 4000`))
