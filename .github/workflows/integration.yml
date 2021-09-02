@@ -40,8 +40,8 @@ jobs:
         run: |
           sudo apt-get -y update
           sudo apt-get install -y mysql-client
-          mysql --host 127.0.0.1 --port 3306 -u${{ env.DB_USER }} -p${{ env.MYSQL_ROOT_PASSWORD }} -e "CREATE DATABASE IF NOT EXISTS ${{ env.DB_NAME }};"
-          mysql --host 127.0.0.1 --port 3306 -u${{ env.DB_USER }} -p${{ env.MYSQL_ROOT_PASSWORD }} -e "SHOW DATABASES;"
+          mysql --host 127.0.0.1 --port ${{ jobs.services.mysql.ports['3306'] }} -u${{ env.DB_USER }} -p${{ env.MYSQL_ROOT_PASSWORD }} -e "CREATE DATABASE IF NOT EXISTS ${{ env.DB_NAME }};"
+          mysql --host 127.0.0.1 --port ${{ jobs.services.mysql.ports['3306'] }} -u${{ env.DB_USER }} -p${{ env.MYSQL_ROOT_PASSWORD }} -e "SHOW DATABASES;"
             
       - name: Checkout
         uses: actions/checkout@v2
