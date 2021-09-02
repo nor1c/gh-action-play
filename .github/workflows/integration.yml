@@ -21,6 +21,7 @@ jobs:
         image: mysql:latest
         env:
           MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
         ports:
           - 3306:3306
         options: >-
@@ -39,8 +40,8 @@ jobs:
         run: |
           sudo apt-get -y update
           sudo apt-get install -y mysql-client
-          mysql --host 127.0.0.1 --port 3306 -u${{ env.DB_USER }} -p${{ env.DB_PASS }} -e "CREATE DATABASE IF NOT EXISTS ${{ env.DB_NAME }};"
-          mysql --host 127.0.0.1 --port 3306 -u${{ env.DB_USER }} -p${{ env.DB_PASS }} -e "SHOW DATABASES;"
+          mysql --host 127.0.0.1 --port 3306 -u${{ env.DB_USER }} -p${{ env.MYSQL_ROOT_PASSWORD }} -e "CREATE DATABASE IF NOT EXISTS ${{ env.DB_NAME }};"
+          mysql --host 127.0.0.1 --port 3306 -u${{ env.DB_USER }} -p${{ env.MYSQL_ROOT_PASSWORD }} -e "SHOW DATABASES;"
             
       - name: Checkout
         uses: actions/checkout@v2
