@@ -10,7 +10,8 @@
     "dev": "nodemon src/server.ts",
     "build": "rm -rf dist && tsc",
     "test": "jest --verbose ./test",
-    "serve": "pm2 start dist/src/server.js --watch"
+    "serve": "node dist/src/server.js",
+    "c-test": "yarn build && yarn serve && yarn test && pm2 stop 0"
   },
   "dependencies": {
     "@types/dotenv": "^8.2.0",
