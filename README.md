@@ -2,4 +2,4 @@
 
 Skipping workflows
 You can prevent a workflow from being triggered by adding skip instruction to commit message.
-- example: `git commit -m "docs: add some documentation [skip-checks:true]"`
+- example: `git commit -m "docs: add some documentation" skip-checks:true`
