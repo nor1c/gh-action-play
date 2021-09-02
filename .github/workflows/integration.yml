@@ -11,13 +11,40 @@ jobs:
         node-version: [16.x]
         os: [ubuntu-latest]
 
+    env:
+      DB_USER: root
+      DB_PASS: root
+      DB_NAME: gh-action
+
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+          --entrypoint sh mysql:latest "exec docker-entrypoint.sh mysqld --default-authentication-plugin=mysql_native_password"
+
     steps:
       - name: Cancel previous runs
         uses: styfle/cancel-workflow-action@0.9.1
         with:
           access_token: ${{ github.token }}
+
+      - name: Verify mysql connection from host
+        run: |
+          sudo apt-get -y update
+          sudo apt-get install -y mysql-client
+          mysql --host 127.0.0.1 --port 3306 -u${{ env.DB_USER }} -p${{ env.DB_PASS }} -e "CREATE DATABASE IF NOT EXISTS ${{ env.DB_NAME }};"
+          mysql --host 127.0.0.1 --port 3306 -u${{ env.DB_USER }} -p${{ env.DB_PASS }} -e "SHOW DATABASES;"
             
-      - name: Checkout local branch
+      - name: Checkout
         uses: actions/checkout@v2
       
       - name: Use Node.js ${{ matrix.node-version }}
@@ -25,6 +52,15 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
+
+      - name: Cache yarn
+        uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
           
       - name: Install dependencies
         run: npm ci
