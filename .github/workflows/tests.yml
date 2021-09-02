@@ -69,7 +69,9 @@ jobs:
         run: npm ci
 
       - name: Building app
-        run: npm run build
+        run: |
+          npm i typescript -g
+          npm run build --if-present
 
       - name: Serving app
         run: npm run serve
