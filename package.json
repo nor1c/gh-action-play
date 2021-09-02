@@ -11,7 +11,7 @@
     "build": "rm -rf dist && tsc",
     "test": "jest --verbose ./test",
     "serve": "node dist/src/server.js",
-    "c-test": "yarn build && yarn serve && yarn test && pm2 stop 0"
+    "serve-prod": "pm2 start -f dist/src/server.js --watch"
   },
   "dependencies": {
     "@types/dotenv": "^8.2.0",
