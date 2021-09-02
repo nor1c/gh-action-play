@@ -68,7 +68,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Starting the app up
+        run: npm run dev
+
       - name: Run unit test
-        run: |
-          npm run dev /
-          npm test
+        run: npm test
