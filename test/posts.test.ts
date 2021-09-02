@@ -1,7 +1,7 @@
 import jest from 'jest'
 import supertest from 'supertest'
 
-const apiUrl = 'http://localhost:3000'
+const apiUrl = 'http://127.0.0.1:3000'
 const api = supertest.agent(apiUrl)
 
 describe('Post module', () => {
