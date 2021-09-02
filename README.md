@@ -13,9 +13,9 @@ If any commit message in your push or the HEAD commit of your PR contains the st
 Workflow runs often reuse the same outputs or downloaded dependencies from one run to another. For example, package and dependency management tools such as Maven, Gradle, npm, and Yarn keep a local cache of downloaded dependencies.
 <br><br>
 Jobs on GitHub-hosted runners start in a clean virtual environment and must download dependencies each time, causing increased network utilization, longer runtime, and increased cost. To help speed up the time it takes to recreate these files, GitHub can cache dependencies you frequently use in workflows.<br>
-To cache dependencies for a job, you'll need to use GitHub's `cache` action. The action retrieves a cache identified by a unique key. For more information, see [actions/cache](https://github.com/actions/cache).
+To cache dependencies for a job, you'll need to use GitHub's `cache` action. The action retrieves a cache identified by a unique key. For more information, see [`actions/cache`](https://github.com/actions/cache).
 <br><br>
-To cache and restore dependencies for npm, Yarn, or pnpm, you can use the `[actions/setup-node](https://github.com/actions/setup-node)` action.
+To cache and restore dependencies for npm, Yarn, or pnpm, you can use the [`actions/setup-node`](https://github.com/actions/setup-node) action.
 <br>
 #### Example caching npm dependencies:
 ```
