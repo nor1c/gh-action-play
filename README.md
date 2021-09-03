@@ -1,6 +1,6 @@
 [![App Functional Tests](https://github.com/nor1c/gh-action-play/actions/workflows/tests.yml/badge.svg)](https://github.com/nor1c/gh-action-play/actions/workflows/tests.yml)
 
-## [Skipping workflows](https://docs.github.com/en/actions/guides/about-continuous-integration#skipping-workflow-runs)
+## # [Skipping workflows](https://docs.github.com/en/actions/guides/about-continuous-integration#skipping-workflow-runs)
 You can prevent a workflow from being triggered by adding skip instruction to commit message.<br>
 If any commit message in your push or the HEAD commit of your PR contains the strings `[skip ci]`, `[ci skip]`, `[no ci]`, `[skip actions]`, or `[actions skip]` workflows triggered on the push or pull_request events will be skipped.
 
@@ -8,8 +8,8 @@ example: `git commit -m "docs: add some documentation [skip ci]"`
 
 <br>
 
-## [Caching dependencies to speed up workflows](https://docs.github.com/en/actions/guides/caching-dependencies-to-speed-up-workflows)
-### [About caching workflow dependencies](https://docs.github.com/en/actions/guides/caching-dependencies-to-speed-up-workflows#about-caching-workflow-dependencies)
+## # [Caching dependencies to speed up workflows](https://docs.github.com/en/actions/guides/caching-dependencies-to-speed-up-workflows)
+### ## [About caching workflow dependencies](https://docs.github.com/en/actions/guides/caching-dependencies-to-speed-up-workflows#about-caching-workflow-dependencies)
 Workflow runs often reuse the same outputs or downloaded dependencies from one run to another. For example, package and dependency management tools such as Maven, Gradle, npm, and Yarn keep a local cache of downloaded dependencies.
 
 Jobs on GitHub-hosted runners start in a clean virtual environment and must download dependencies each time, causing increased network utilization, longer runtime, and increased cost. To help speed up the time it takes to recreate these files, GitHub can cache dependencies you frequently use in workflows.
@@ -51,14 +51,14 @@ steps:
 - [Matching a cache key](https://docs.github.com/en/actions/guides/caching-dependencies-to-speed-up-workflows#matching-a-cache-key)
 - [Example of search priority](https://docs.github.com/en/actions/guides/caching-dependencies-to-speed-up-workflows#example-of-search-priority)
 
-### Usage limits and eviction policy
+### ## Usage limits and eviction policy
 GitHub will remove any cache entries that have not been accessed in over 7 days. There is no limit on the number of caches you can store, but the total size of all caches in a repository is limited to 5 GB. If you exceed this limit, GitHub will save your cache but will begin evicting caches until the total size is less than 5 GB.<br>
 
 <br>
 
-## [About service containers](https://docs.github.com/en/actions/guides/about-service-containers)
+## # [About service containers](https://docs.github.com/en/actions/guides/about-service-containers)
 
-### [About service containers](https://docs.github.com/en/actions/guides/about-service-containers#about-service-containers)
+### ## [About service containers](https://docs.github.com/en/actions/guides/about-service-containers#about-service-containers)
 Service containers are Docker containers that provide a simple and portable way for you to host services that you might need to test or operate your application in a workflow. For example, your workflow might need to run integration tests that require access to a database and memory cache.
 
 You can configure service containers for each job in a workflow. GitHub creates a fresh Docker container for each service configured in the workflow, and destroys the service container when the job completes. Steps in a job can communicate with all service containers that are part of the same job.
@@ -67,7 +67,7 @@ You can configure service containers for each job in a workflow. GitHub creates 
 > - If you are using GitHub-hosted runners, you must use an Ubuntu runner.
 > - If you are using self-hosted runners, you must use a Linux machine as your runner and Docker must be installed. 
 
-### [Creating service containers](https://docs.github.com/en/actions/guides/about-service-containers#creating-service-containers)
+### ## [Creating service containers](https://docs.github.com/en/actions/guides/about-service-containers#creating-service-containers)
 You can use the `services` keyword to create service containers that are part of a job in your workflow. For more information, see [`jobs.<job_id>.services`](https://docs.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#jobsjob_idservices).
 
 This example creates a service called `redis` in a job called `container-job`. The Docker host in this example is the `node:10.18-jessie` container.
@@ -114,3 +114,7 @@ jobs:
           # Opens tcp port 6379 on the host and service container
           - 6379:6379
 ```
+
+**Examples**
+- [Creating Redis service containers](https://docs.github.com/en/actions/guides/creating-redis-service-containers)
+- [Creating PostgreSQL service containers](https://docs.github.com/en/actions/guides/creating-postgresql-service-containers)
