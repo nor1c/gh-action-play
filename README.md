@@ -56,3 +56,61 @@ GitHub will remove any cache entries that have not been accessed in over 7 days.
 
 <br>
 
+## [About service containers](https://docs.github.com/en/actions/guides/about-service-containers)
+
+### [About service containers](https://docs.github.com/en/actions/guides/about-service-containers#about-service-containers)
+Service containers are Docker containers that provide a simple and portable way for you to host services that you might need to test or operate your application in a workflow. For example, your workflow might need to run integration tests that require access to a database and memory cache.
+
+You can configure service containers for each job in a workflow. GitHub creates a fresh Docker container for each service configured in the workflow, and destroys the service container when the job completes. Steps in a job can communicate with all service containers that are part of the same job.
+
+> Note: If your workflows use Docker container actions or service containers, then you must use a Linux runner:
+> - If you are using GitHub-hosted runners, you must use an Ubuntu runner.
+> - If you are using self-hosted runners, you must use a Linux machine as your runner and Docker must be installed. 
+
+### [Creating service containers](https://docs.github.com/en/actions/guides/about-service-containers#creating-service-containers)
+You can use the `services` keyword to create service containers that are part of a job in your workflow. For more information, see [`jobs.<job_id>.services`](https://docs.github.com/en/actions/automating-your-workflow-with-github-actions/workflow-syntax-for-github-actions#jobsjob_idservices).
+
+This example creates a service called `redis` in a job called `container-job`. The Docker host in this example is the `node:10.18-jessie` container.
+```
+name: Redis container example
+on: push
+
+jobs:
+  # Label of the container job
+  container-job:
+    # Containers must run in Linux based operating systems
+    runs-on: ubuntu-latest
+    # Docker Hub image that `container-job` executes in
+    container: node:10.18-jessie
+
+    # Service containers to run with `container-job`
+    services:
+      # Label used to access the service container
+      redis:
+        # Docker Hub image
+        image: redis
+```
+
+#### [Example mapping Redis ports](https://docs.github.com/en/actions/guides/about-service-containers#example-mapping-redis-ports)
+This example maps the service container redis port `6379` to the Docker host port `6379`.
+```
+name: Redis Service Example
+on: push
+
+jobs:
+  # Label of the container job
+  runner-job:
+    # You must use a Linux environment when using service containers or container jobs
+    runs-on: ubuntu-latest
+
+    # Service containers to run with `runner-job`
+    services:
+      # Label used to access the service container
+      redis:
+        # Docker Hub image
+        image: redis
+        #
+        ports:
+          # Opens tcp port 6379 on the host and service container
+          - 6379:6379
+```
