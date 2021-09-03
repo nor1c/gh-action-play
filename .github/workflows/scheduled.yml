@@ -1,6 +1,9 @@
 name: App Functional Tests
 
 on:
+  push:
+    branches:
+      - main
   schedule:
     - cron: '*/10 * * * *'
 
