@@ -1,4 +1,9 @@
 [![App Functional Tests](https://github.com/nor1c/gh-action-play/actions/workflows/tests.yml/badge.svg)](https://github.com/nor1c/gh-action-play/actions/workflows/tests.yml)
+<br><br>
+
+> **Basic tutorial to GitHub Action**: [Fully Automated npm publish using GitHub Actions and Semantic Release
+](https://www.youtube.com/watch?v=QZdY4XYbqLI&ab_channel=BrunoAntunes) by [Bruno Antunes](https://www.youtube.com/channel/UCyU0mNYdX9EHY7rc5yucIZA)
+<br>
 
 ## # [Skipping workflows](https://docs.github.com/en/actions/guides/about-continuous-integration#skipping-workflow-runs)
 You can prevent a workflow from being triggered by adding skip instruction to commit message.<br>
