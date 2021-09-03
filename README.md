@@ -5,6 +5,43 @@
 ](https://www.youtube.com/watch?v=QZdY4XYbqLI&ab_channel=BrunoAntunes) by [Bruno Antunes](https://www.youtube.com/channel/UCyU0mNYdX9EHY7rc5yucIZA)
 <br>
 
+## # [Events](https://docs.github.com/en/actions/reference/events-that-trigger-workflows)
+You can configure your workflows to run when specific activity on GitHub happens, at a scheduled time, or when an event outside of GitHub occurs.
+
+### ## [Scheduled Events](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#scheduled-events)
+The `schedule` event allows you to trigger a workflow at a scheduled time.
+
+<img src="https://raw.githubusercontent.com/nor1c/gh-action-play/main/doc_assets/gh-action-schedule.png">
+
+**Example syntax**
+```
+on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '30 5,17 * * *'
+```
+
+Cron syntax has five fields separated by a space, and each field represents a unit of time.
+```
+┌───────────── minute (0 - 59)
+│ ┌───────────── hour (0 - 23)
+│ │ ┌───────────── day of the month (1 - 31)
+│ │ │ ┌───────────── month (1 - 12 or JAN-DEC)
+│ │ │ │ ┌───────────── day of the week (0 - 6 or SUN-SAT)
+│ │ │ │ │                                   
+│ │ │ │ │
+│ │ │ │ │
+* * * * *
+```
+
+You can use these operators in any of the five fields:
+<img src="https://raw.githubusercontent.com/nor1c/gh-action-play/main/doc_assets/gh-cron.png" />
+
+### # [Manual events](https://docs.github.com/en/actions/reference/events-that-trigger-workflows#manual-events)
+You can manually trigger workflow runs. To trigger specific workflows in a repository, use the `workflow_dispatch` event. To trigger more than one workflow in a repository and create custom events and event types, use the `repository_dispatch` event.
+
+*Read more about `Manual Events`: [Manually running a workflow](https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow)
+
 ## # [Skipping workflows](https://docs.github.com/en/actions/guides/about-continuous-integration#skipping-workflow-runs)
 You can prevent a workflow from being triggered by adding skip instruction to commit message.<br>
 If any commit message in your push or the HEAD commit of your PR contains the strings `[skip ci]`, `[ci skip]`, `[no ci]`, `[skip actions]`, or `[actions skip]` workflows triggered on the push or pull_request events will be skipped.
