@@ -1,0 +1,82 @@
+name: App Functional Tests
+
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+
+jobs:
+  tests:
+    name: Tests
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node-version: [16.x]
+        os: [ubuntu-latest]
+
+    env:
+      DB_USER: root
+      DB_PASS: root
+      DB_NAME: gh_action
+
+    services:
+      mysql:
+        image: mysql:latest
+        env:
+          MYSQL_ALLOW_EMPTY_PASSWORD: yes
+          MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="mysqladmin ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - name: Cancel previous runs
+        uses: styfle/cancel-workflow-action@0.9.1
+        with:
+          access_token: ${{ github.token }}
+
+      - name: Verify mysql connection from host
+        run: |
+          sudo apt-get -y update
+          sudo apt-get install -y mysql-client
+          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -u${{ env.DB_USER }} -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "CREATE DATABASE IF NOT EXISTS ${{ env.DB_NAME }};"
+          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -u${{ env.DB_USER }} -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "USE gh_action; CREATE TABLE posts ( id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT, title VARCHAR(50) NOT NULL COLLATE 'utf8mb4_general_ci', content VARCHAR(300) NOT NULL COLLATE 'utf8mb4_general_ci', PRIMARY KEY (id) USING BTREE ) COLLATE='utf8mb4_general_ci' ENGINE=InnoDB AUTO_INCREMENT=2;"
+          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -u${{ env.DB_USER }} -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "USE gh_action; INSERT INTO posts (title, content) VALUES ('First post', 'Content of the first posts.');"
+          mysql --host 127.0.0.1 --port ${{ job.services.mysql.ports['3306'] }} -u${{ env.DB_USER }} -p${{ secrets.MYSQL_ROOT_PASSWORD }} -e "USE gh_action; SELECT * FROM posts;"
+            
+      - name: Checkout
+        uses: actions/checkout@v2
+      
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+      
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+
+      - name: Cache yarn
+        uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+          
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build app
+        run: npm run build --if-present
+
+      - name: Serve app
+        run: npm run serve
+
+      - name: Run unit-test
+        run: npm test
